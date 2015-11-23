@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.Scanner;
 public class Functions {
 
-    public class fileManagement{
+    public static class fileManagement{
         String selectedFileName;
         // File structure: Name of object (string name) + Number of said object ( int quantity).
         public void makeFile(String newFileName)
@@ -46,20 +46,19 @@ public class Functions {
                  */
             }
         }
-        public void deleteFile(File f)
+        public static void deleteFile(File f)
         {
 
            if (f.exists())
            {
-               deleteFile(f);
+               f.delete();
            }
         }
 
     }// Handles the writing of the files. Handled by Eric.
     public class UIManagement{} // Handles the UI. Handled by Matthew
     public class userManagement{} // Handles the users in the LAN. Handled by Merrell
-    public class listManagement{
-    } // Handles the communication and sending of the lists. Handled by Martin
+    public class listManagement{} // Handles the communication and sending of the lists. Handled by Martin
 
 
 }
