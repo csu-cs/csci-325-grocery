@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.Scanner;
 public class Functions {
 
-    public static class fileManagement{
+    public  class fileManagement{
         String selectedFileName;
         // File structure: Name of object (string name) + Number of said object ( int quantity).
         public void makeFile(String newFileName)
@@ -46,7 +46,7 @@ public class Functions {
                  */
             }
         }
-        public static void deleteFile(File f)
+        public  void deleteFile(File f)
         {
 
            if (f.exists())
