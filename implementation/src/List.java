@@ -6,8 +6,9 @@ public List(Items items) // Doubly Linked List
 {
     head = null;
     tail = null;
-
+    listName = null;
 }
+    String listName;
     Node tail;
     Node head;
 class Node{
