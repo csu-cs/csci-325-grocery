@@ -2,32 +2,35 @@
  * Created by eric on 10/28/2015.
  */
 public class List { // This class handled by Eric
-public List(Items items) // Doubly Linked List
+public List(String nameOfList) // Doubly Linked List
 {
     head = null;
     tail = null;
-    listName = null;
+
 
 }
-    Node tail;
-    Node head;
-    String listName;
-class Node{
-    Node previous;
-    Items itemInside;
-    Node next;
+    Items head;
+    Items tail;
+
+
 
 }
 
-public class Items{ // This class handled by Martin
+class Items{ // This class handled by Martin
 
 public Items(String name, int quantity)
 {
+nameOfObject = name;
+amountOfObjects = quantity;
+    Items next;
+    Items previous;
+
+}
+String nameOfObject;
+int amountOfObjects;
+
+
 
 }
 
 
-
-}
-
-}
