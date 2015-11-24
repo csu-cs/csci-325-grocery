@@ -6,10 +6,12 @@ public List(Items items) // Doubly Linked List
 {
     head = null;
     tail = null;
+    listName = null;
 
 }
     Node tail;
     Node head;
+    String listName;
 class Node{
     Node previous;
     Items itemInside;
