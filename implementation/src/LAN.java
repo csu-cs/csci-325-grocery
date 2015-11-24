@@ -1,36 +1,16 @@
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class Users {
+public class LAN {
 
 
-    String username;
-    String password;
+
     InetAddress ip;
     String hostname;
     String ipAddr;
 
-    public Users(String username, String password){
-        this.username = username;
-        this.password = password;
-    }
+    public LAN(){
 
-
-
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username){
-        this.username = username;
-
-    }
-
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password){
-        this.password = password;
     }
 
     // attempt to automatically pull the local ip address and host name
@@ -49,7 +29,6 @@ public class Users {
     }
 
     public void setIp(String ip){
-
         ipAddr = ip;
     }
     public String getIp(){
