@@ -22,13 +22,13 @@ public Items(String name, int quantity)
 {
 nameOfObject = name;
 amountOfObjects = quantity;
-    Items next;
-    Items previous;
+
 
 }
 String nameOfObject;
 int amountOfObjects;
-
+    Items next;
+    Items previous;
 
 
 }
