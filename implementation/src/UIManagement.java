@@ -34,7 +34,7 @@ import java.io.File;
 public class uiManagement extends JPanel{
 
     // components used by the gui
-    private JButton createList, viewList, addElm, removeElm, saveList, editList, sendList, finalSend;
+    private JButton createList, viewList, addElm, removeElm, saveList, editList, sendList, finalSend, printList;
     private JLabel homeLabel;
     private JTextField recepientInfo;
 
@@ -58,6 +58,7 @@ public class uiManagement extends JPanel{
         sendList = new JButton("Send");
         finalSend = new JButton("Send");
         recepientInfo = new JTextField(14);
+        printList = new JButton("Print");
 
         // fonts and default fonts for buttons
         Font myFontSmall = new Font("Helvetica", Font.PLAIN, 28);
@@ -71,6 +72,7 @@ public class uiManagement extends JPanel{
         editList.setFont(myFontSmall);
         sendList.setFont(myFontSmall);
         finalSend.setFont(myFontSmall);
+        printList.setFont(myFontSmall);
 
         // add initial buttons
         this.add(homeLabel);
@@ -88,6 +90,7 @@ public class uiManagement extends JPanel{
         editList.addActionListener(new editButtonListener());
         sendList.addActionListener(new sendButtonListener());
         finalSend.addActionListener(new finalSendListener());
+        printList.addActionListener(new printListener());
 
         // preferred size set for testing
         this.setPreferredSize(new Dimension(600, 800));
@@ -133,6 +136,7 @@ public class uiManagement extends JPanel{
                 remove(createList);
                 remove(homeLabel);
                 add(editList);
+                add(printList);
                 add(sendList);
                 revalidate();
                 repaint();
@@ -200,6 +204,22 @@ public class uiManagement extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {   // needs to call save method
             System.out.println("SAVE AND GOTO MAIN MENU");
+            Boolean tempFlag = true;
+            String listName;
+            while(tempFlag){
+                try {
+                    listName = JOptionPane.showInputDialog("Enter list name: ");
+                    if (listName.length() != 0) {
+                        tempFlag = false;
+                    }
+                }
+                catch(NullPointerException exception){
+                    JOptionPane.showMessageDialog(null, "You need to enter a name");
+                }
+
+            }
+
+
             add(homeLabel);
             add(createList);
             add(viewList);
@@ -237,9 +257,10 @@ public class uiManagement extends JPanel{
     private class sendButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-        System.out.println("SHIFT TO SEND UI");
+            System.out.println("SHIFT TO SEND UI");
             remove(editList);
             remove(sendList);
+            remove(printList);
             add(recepientInfo);
             add(finalSend);
             revalidate();
@@ -247,6 +268,16 @@ public class uiManagement extends JPanel{
 
         }
     }
+
+    // print it
+    private class printListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("IMPLEMENT PRINT CODE");
+        }
+    }
+
+
 
     /** END LIST VIEW CODE */
 
