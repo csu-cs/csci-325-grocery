@@ -31,7 +31,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class UIManagement extends JPanel{
+
+
+
+public class uiManagement extends JPanel {
+
 
     // components used by the gui
     private JButton createList, viewList, addElm, removeElm, saveList, editList, sendList, finalSend, printList;
@@ -39,9 +43,7 @@ public class UIManagement extends JPanel{
     private JTextField recepientInfo;
 
 
-
-
-    UIManagement(){
+    uiManagement() {
 
 
         // utilizes a flow layout
@@ -98,9 +100,9 @@ public class UIManagement extends JPanel{
     }
 
 
-
-
-    /** BEGIN HOME SCREEN LISTENER CODE */
+    /**
+     * BEGIN HOME SCREEN LISTENER CODE
+     */
 
     // when createList is pressed, the UI needs to change to the List Creation UI
     private class createButtonListener implements ActionListener {
@@ -125,10 +127,9 @@ public class UIManagement extends JPanel{
             System.out.println("SWITCH TO LIST SELECTION");
             JFileChooser chooser = new JFileChooser();
             int status = chooser.showOpenDialog(null);
-            if (status != JFileChooser.APPROVE_OPTION){
+            if (status != JFileChooser.APPROVE_OPTION) {
                 JOptionPane.showMessageDialog(null, "No File Chosen!");  // choosing no file goes back to the homescreen
-            }
-            else{
+            } else {
 
                 File file = chooser.getSelectedFile();
                 System.out.println("SUCCESS FOR FILE SELECTION!"); // file successfully is loaded
@@ -140,9 +141,10 @@ public class UIManagement extends JPanel{
                 add(sendList);
                 revalidate();
                 repaint();
-                List viewedList = fileManagement.populateListFromFile(file.getName());
-            }
 
+                List viewedList = fileManagement.populateListFromFile(file.getName());
+
+            }
 
 
         }
@@ -151,8 +153,9 @@ public class UIManagement extends JPanel{
     /** END HOME SCREEN LISTENER CODE */
 
 
-
-    /** BEGIN LIST CREATE SCREEN LISTENER CODE */
+    /**
+     * BEGIN LIST CREATE SCREEN LISTENER CODE
+     */
 
     // when addButton is pressed, open the add box
     private class addButtonListener implements ActionListener {
@@ -164,21 +167,20 @@ public class UIManagement extends JPanel{
             Boolean tempFlag = true; // temporary flag variable
 
             // ensure an item name is entered, ask until one is entered
-            while(tempFlag) {
+            while (tempFlag) {
                 try {
                     name = JOptionPane.showInputDialog("Enter item name: ");
                     if (name.length() != 0) {
                         tempFlag = false;
                     }
-                }
-                catch(NullPointerException exception){
+                } catch (NullPointerException exception) {
                     JOptionPane.showMessageDialog(null, "You need to enter a name");
                 }
             }
 
             /// ensure a proper number is entered for the quantity
             tempFlag = true;
-            while(tempFlag) {
+            while (tempFlag) {
                 try {
                     temp = JOptionPane.showInputDialog("Enter quantity");  // get a quantity as a string
                     quantity = Integer.valueOf(temp); // attempt to convert to int
@@ -188,7 +190,6 @@ public class UIManagement extends JPanel{
                     JOptionPane.showMessageDialog(null, "Enter a number!"); // catch for invalid number input
                 }
             }
-
         }
     }
 
@@ -206,39 +207,33 @@ public class UIManagement extends JPanel{
         public void actionPerformed(ActionEvent e) {   // needs to call save method
             System.out.println("SAVE AND GOTO MAIN MENU");
             Boolean tempFlag = true;
+
             String listName = null;
 
-            while(tempFlag){
+
+            while (tempFlag) {
                 try {
                     listName = JOptionPane.showInputDialog("Enter list name: ");
                     if (listName.length() != 0) {
                         tempFlag = false;
-                        if(fileManagement.fileExists(listName))
-                        {
+
+                        if (fileManagement.fileExists(listName)) {
                             int response = JOptionPane.showConfirmDialog(null, "Do you want to overwrite or delete the current file?. Yes = overwrite. " +
                                             "No = delete current file.", "Confirm",
                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                            if(response == JOptionPane.YES_OPTION) {
+                            if (response == JOptionPane.YES_OPTION) {
                                 fileManagement.deleteFile(listName);
                                 fileManagement.makeFile(listName);
-                            }
-                            else if(response == JOptionPane.NO_OPTION);
+                            } else if (response == JOptionPane.NO_OPTION) ;
                             fileManagement.deleteFile(listName);
-                        }
-                        else
+                        } else
                             fileManagement.makeFile(listName);
-
                     }
                     List aList = new List(listName);
-                }
-                catch(NullPointerException exception){
+                } catch (NullPointerException exception) {
                     JOptionPane.showMessageDialog(null, "You need to enter a name");
                 }
-
             }
-
-
-
             add(homeLabel);
             add(createList);
             add(viewList);
@@ -248,15 +243,11 @@ public class UIManagement extends JPanel{
             revalidate();
             repaint();
         }
-
     }
-
-
-
     /** END LIST CREATE SCREEN LISTENER CODE */
-
-    /** BEGIN LIST VIEW CODE */
-
+    /**
+     * BEGIN LIST VIEW CODE
+     */
     // swap to the list creation ui
     private class editButtonListener implements ActionListener {
         @Override
@@ -271,7 +262,6 @@ public class UIManagement extends JPanel{
             repaint();
         }
     }
-
     // shift to the send list ui
     private class sendButtonListener implements ActionListener {
         @Override
@@ -284,10 +274,8 @@ public class UIManagement extends JPanel{
             add(finalSend);
             revalidate();
             repaint();
-
         }
     }
-
     // print it
     private class printListener implements ActionListener {
         @Override
@@ -296,18 +284,15 @@ public class UIManagement extends JPanel{
         }
     }
 
-
-
     /** END LIST VIEW CODE */
-
-
-    /** BEGIN SEND LIST VIEW CODE */
-
+    /**
+     * BEGIN SEND LIST VIEW CODE
+     */
     // send the list to the recepeint when finalSend is pressed and recepientInfo isn't empty
     private class finalSendListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(recepientInfo.getText().length() != 0) {
+            if (recepientInfo.getText().length() != 0) {
                 System.out.println("SHIFT TO HOME UI. SUCCESSFUL LIST SEND");
                 remove(finalSend);
                 remove(recepientInfo);
@@ -315,18 +300,10 @@ public class UIManagement extends JPanel{
                 add(viewList);
                 revalidate();
                 repaint();
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Enter who to send the list to!");
             }
         }
     }
-
-    /** END SEND LIST VIEW CODE */
-
-
-
-
-
-
 }
+/** END SEND LIST VIEW CODE */
