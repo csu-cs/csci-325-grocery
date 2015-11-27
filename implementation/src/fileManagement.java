@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class fileManagement{
@@ -8,8 +9,11 @@ public class fileManagement{
     {
 
         try {
-            Scanner fileMaker = new Scanner(new File(newFileName));
+
             newFileName = newFileName + ".txt";
+            final Formatter x;
+            x = new Formatter("ListsFile\\" + newFileName);
+
         }
         catch (Exception e)
         {
@@ -21,17 +25,51 @@ public class fileManagement{
                  */
         }
     }
+     /*
+            public void populateListTest(List aList)
+             {
+                 try{
+                     Formatter formatting;
+                     formatting = new Formatter(selectedFileName);
+                 }
+                 catch(Exception e)
+                 {
+                     System.out.println("File is corrupt or invalid. Select another.");
+                     // Android stuff
+                     //Toast errorToast = Toast.makeText(getApplicationContext(),"File is corrupt or invalid. Select another.,Toast.LENGTH_LONG);
+                     //errorToast.show();
 
-    /*
-             public void populateListFromFile(List k)
+                 }
+             }
+*/
+   /* public void populateFileFromList(List k)
+    {
+
+
+
+    }
+*/
+         public static List populateListFromFile(String path)
             {
-                try{
-                    Scanner fileOpener = new Scanner(new File(selectedFileName));
-                    do {
-                       // Requires integration of ListManagement functions.
+               List generatedList = new List(path);
+             try{
+                 Scanner fileReader = new Scanner(new File(path));
+                do {
+                    int i = 0;
+                    String nameOfItem;
+                    int quantity;
+                    nameOfItem = fileReader.next();
+                    quantity = Integer.parseInt(fileReader.next());
 
-                    } while(fileOpener.nextLine() != null);
-                }
+                    Items currentItem = null;
+                    currentItem.nameOfObject = nameOfItem;
+                    currentItem.amountOfObjects = quantity;
+                   generatedList.itemsInList[i].nameOfObject = currentItem.nameOfObject;
+                   generatedList.itemsInList[i].amountOfObjects = currentItem.amountOfObjects;
+                   i++;
+                } while(fileReader.hasNextLine());
+
+             }
                 catch(Exception e)
                 {
                     System.out.println("File is corrupt or invalid. Select another.");
@@ -41,14 +79,36 @@ public class fileManagement{
 
 
                 }
-            }  */
-    public static void deleteFile(File f)
+                return generatedList;
+            }
+    public static void deleteFile(String path)
     {
-
-        if (f.exists())
+ File aFile = new File("ListsFile\\" + path + ".txt");
+        if (aFile.exists())
         {
-            f.delete();
+            aFile.delete();
+            System.out.println("The file " + aFile.getName() + " has been deleted.");
         }
     }
+public static void readFile(String selectedFileName){
+
+
+
+
+}
+public static boolean fileExists(String path)
+{
+    File aFile = new File("ListsFile\\" + path + ".txt");
+    if(aFile.exists())
+    {
+        System.out.println("The file: " + aFile.getName() + " does exist.");
+        return true;
+    }
+else
+  return false;
+};
+
+
+
 
 }// Handles the writing of the files. Handled by Eric.

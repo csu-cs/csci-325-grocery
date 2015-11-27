@@ -4,13 +4,14 @@
 public class List { // This class handled by Eric
 public List(String nameOfList) // Doubly Linked List
 {
-    head = null;
-    tail = null;
+    //head = null;
+    //tail = null;
 
 
 }
-    Items head;
-    Items tail;
+  //  Items head;
+    //Items tail;
+Items[] itemsInList = new Items[50];
 
 
 
@@ -27,8 +28,10 @@ amountOfObjects = quantity;
 }
 String nameOfObject;
 int amountOfObjects;
-    Items next;
-    Items previous;
+
+
+//    Items next;
+  //  Items previous;
 
 
 }
