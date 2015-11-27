@@ -34,7 +34,7 @@ import java.io.File;
 
 
 
-public class uiManagement extends JPanel {
+public class UIManagement extends JPanel {
 
 
     // components used by the gui
@@ -43,7 +43,7 @@ public class uiManagement extends JPanel {
     private JTextField recepientInfo;
 
 
-    uiManagement() {
+    UIManagement() {
 
 
         // utilizes a flow layout
