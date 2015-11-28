@@ -1,5 +1,6 @@
 /**
  * Created by Matthew McCrackin for CSCI-325 2015 Grocery Program [DESKTOP]
+ * File loading portion of the code by Eric Comitz
  *
  *  Handles all the fun UI stuff
  * Code should be pretty well documented and easy to follow ;)
