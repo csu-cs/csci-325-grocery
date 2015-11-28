@@ -1,9 +1,10 @@
 import java.io.File;
 import java.util.Formatter;
+
 import java.util.Scanner;
 
 public class fileManagement{
-    String selectedFileName;
+   // String selectedFileName;
     // File structure: Name of object (string name) + Number of said object (int quantity).
     public static void makeFile(String newFileName)
     {
@@ -51,24 +52,30 @@ public class fileManagement{
 */
          public static List populateListFromFile(String path)
             {
+                
                List generatedList = new List(path);
+                String nameOfItem = null;
+                int quantity;
+
+                Items genericItem = null;
+
              try{
                  Scanner fileReader = new Scanner(new File(path));
+                 int i = 0;
                 do {
-                    int i = 0;
-                    String nameOfItem;
-                    int quantity;
+
+
                     nameOfItem = fileReader.next();
+                    //System.out.println(nameOfItem);
                     quantity = Integer.parseInt(fileReader.next());
-
-                    Items currentItem = null;
-                    currentItem.nameOfObject = nameOfItem;
-                    currentItem.amountOfObjects = quantity;
-                   generatedList.itemsInList[i].nameOfObject = currentItem.nameOfObject;
-                   generatedList.itemsInList[i].amountOfObjects = currentItem.amountOfObjects;
+                    //System.out.println(quantity);
+                 genericItem = new Items(nameOfItem, quantity);
+                    generatedList.itemsInList[i] = genericItem;
+                   System.out.println("List object name " +  " " + generatedList.itemsInList[i].nameOfObject);
+                    System.out.println("Amount of that object: " +  " " + generatedList.itemsInList[i].amountOfObjects);
                    i++;
-                } while(fileReader.hasNextLine());
-
+                    //System.out.println(i);
+                } while(fileReader.hasNext());
              }
                 catch(Exception e)
                 {
@@ -79,7 +86,10 @@ public class fileManagement{
 
 
                 }
+
+
                 return generatedList;
+
             }
     public static void deleteFile(String path)
     {

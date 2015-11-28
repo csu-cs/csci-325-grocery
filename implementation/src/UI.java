@@ -10,10 +10,10 @@ public class UI {
 
     public static void main(String args[]) {
         JFrame groceryUI = new JFrame("CSCI 325 Grocery Project");
-        uiManagement myHomeScreen = new uiManagement();
-        groceryUI.add(new uiManagement());
+        UIManagement myHomeScreen = new UIManagement();
+        groceryUI.add(new UIManagement());
         groceryUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        groceryUI.pack();
+    groceryUI.pack();
         groceryUI.setVisible(true);
 
     }

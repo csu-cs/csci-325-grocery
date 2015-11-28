@@ -21,34 +21,23 @@
  * 1. homeLabel: Just a label for the home screen :) [done]
  * 2. recepientInfo: Text field for entering the recepeint info [done]
  */
-
-
 // imports utilized by the class
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
-
-
-
+import java.util.Scanner;
 
 public class UIManagement extends JPanel {
-
-
     // components used by the gui
     private JButton createList, viewList, addElm, removeElm, saveList, editList, sendList, finalSend, printList;
     private JLabel homeLabel;
     private JTextField recepientInfo;
 
-
     UIManagement() {
-
-
         // utilizes a flow layout
         setLayout(new FlowLayout());
-
         // create the buttons
         createList = new JButton("Create New List");
         viewList = new JButton("View List");
@@ -61,7 +50,6 @@ public class UIManagement extends JPanel {
         finalSend = new JButton("Send");
         recepientInfo = new JTextField(14);
         printList = new JButton("Print");
-
         // fonts and default fonts for buttons
         Font myFontSmall = new Font("Helvetica", Font.PLAIN, 28);
         Font myFontMedium = new Font("Helvetica", Font.PLAIN, 60);
@@ -75,16 +63,13 @@ public class UIManagement extends JPanel {
         sendList.setFont(myFontSmall);
         finalSend.setFont(myFontSmall);
         printList.setFont(myFontSmall);
-
         // add initial buttons
         this.add(homeLabel);
         this.add(createList);
         this.add(viewList);
-
         // add listeners for when the buttons are pressed
         viewList.addActionListener(new viewButtonListener());
         createList.addActionListener(new createButtonListener());
-
         // temporarily adding listeners for these at the beginning for easy testing
         addElm.addActionListener(new addButtonListener());
         removeElm.addActionListener(new removeButtonListener());
@@ -93,17 +78,12 @@ public class UIManagement extends JPanel {
         sendList.addActionListener(new sendButtonListener());
         finalSend.addActionListener(new finalSendListener());
         printList.addActionListener(new printListener());
-
         // preferred size set for testing
         this.setPreferredSize(new Dimension(600, 800));
-
     }
-
-
     /**
      * BEGIN HOME SCREEN LISTENER CODE
      */
-
     // when createList is pressed, the UI needs to change to the List Creation UI
     private class createButtonListener implements ActionListener {
         @Override
@@ -119,7 +99,6 @@ public class UIManagement extends JPanel {
             repaint();
         }
     }
-
     // when viewList is pressed, the UI needs to change to the List Selection UI
     private class viewButtonListener implements ActionListener {
         @Override
@@ -130,7 +109,6 @@ public class UIManagement extends JPanel {
             if (status != JFileChooser.APPROVE_OPTION) {
                 JOptionPane.showMessageDialog(null, "No File Chosen!");  // choosing no file goes back to the homescreen
             } else {
-
                 File file = chooser.getSelectedFile();
                 System.out.println("SUCCESS FOR FILE SELECTION!"); // file successfully is loaded
                 remove(viewList);
@@ -139,24 +117,23 @@ public class UIManagement extends JPanel {
                 add(editList);
                 add(printList);
                 add(sendList);
+                List viewedList = new List(file.getName());
                 revalidate();
                 repaint();
 
-                List viewedList = fileManagement.populateListFromFile(file.getName());
+
+
+
+                  viewedList = fileManagement.populateListFromFile(file.getPath());
+
 
             }
-
-
         }
     }
-
     /** END HOME SCREEN LISTENER CODE */
-
-
     /**
      * BEGIN LIST CREATE SCREEN LISTENER CODE
      */
-
     // when addButton is pressed, open the add box
     private class addButtonListener implements ActionListener {
         @Override
@@ -165,7 +142,6 @@ public class UIManagement extends JPanel {
             String name = null, temp;
             int quantity;
             Boolean tempFlag = true; // temporary flag variable
-
             // ensure an item name is entered, ask until one is entered
             while (tempFlag) {
                 try {
@@ -177,7 +153,6 @@ public class UIManagement extends JPanel {
                     JOptionPane.showMessageDialog(null, "You need to enter a name");
                 }
             }
-
             /// ensure a proper number is entered for the quantity
             tempFlag = true;
             while (tempFlag) {
@@ -192,7 +167,6 @@ public class UIManagement extends JPanel {
             }
         }
     }
-
     // when remove is pressed, remove selected element
     private class removeButtonListener implements ActionListener {
         @Override
@@ -200,23 +174,18 @@ public class UIManagement extends JPanel {
             System.out.println("REMOVE ITEMS");  // NEEDS TO BE IMPLEMENTED
         }
     }
-
     // when save is pressed, save the list and goto main
     private class saveButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {   // needs to call save method
             System.out.println("SAVE AND GOTO MAIN MENU");
             Boolean tempFlag = true;
-
             String listName = null;
-
-
             while (tempFlag) {
                 try {
                     listName = JOptionPane.showInputDialog("Enter list name: ");
                     if (listName.length() != 0) {
                         tempFlag = false;
-
                         if (fileManagement.fileExists(listName)) {
                             int response = JOptionPane.showConfirmDialog(null, "Do you want to overwrite or delete the current file?. Yes = overwrite. " +
                                             "No = delete current file.", "Confirm",
@@ -283,7 +252,6 @@ public class UIManagement extends JPanel {
             System.out.println("IMPLEMENT PRINT CODE");
         }
     }
-
     /** END LIST VIEW CODE */
     /**
      * BEGIN SEND LIST VIEW CODE
