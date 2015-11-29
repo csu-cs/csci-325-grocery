@@ -13,7 +13,7 @@ public class UI {
         UIManagement myHomeScreen = new UIManagement();
         groceryUI.add(new UIManagement());
         groceryUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    groceryUI.pack();
+        groceryUI.pack();
         groceryUI.setVisible(true);
 
     }
