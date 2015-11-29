@@ -181,7 +181,7 @@ public class UIManagement extends JPanel {
         public void actionPerformed(ActionEvent e) {   // needs to call save method
             System.out.println("SAVE AND GOTO MAIN MENU");
             Boolean tempFlag = true;
-            String listName = null;
+            String listName;
             while (tempFlag) {
                 try {
                     listName = JOptionPane.showInputDialog("Enter list name: ");
@@ -198,8 +198,20 @@ public class UIManagement extends JPanel {
                             fileManagement.deleteFile(listName);
                         } else
                             fileManagement.makeFile(listName);
+                        List aList = new List(listName);
+                        // The following items are test items!
+                        Items item1 = new Items("Icecream", 10);
+                        Items item2 = new Items("Chips", 9);
+                        aList.itemsInList[0] = item1;
+                        aList.itemsInList[1] = item2;
+                        fileManagement.populateFileFromList(aList,listName);
                     }
-                    List aList = new List(listName);
+
+
+
+
+
+                    //-------------------------------
                 } catch (NullPointerException exception) {
                     JOptionPane.showMessageDialog(null, "You need to enter a name");
                 }

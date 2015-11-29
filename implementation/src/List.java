@@ -4,7 +4,11 @@
 public class List { // This class handled by Eric
 public List(String nameOfList) // Doubly Linked List
 {
-
+for (int i = 0; i <= 50; i++)
+{
+//    Items anItem = new Items(null, 0);
+//    itemsInList[i] = anItem;
+}
 
 
 }
