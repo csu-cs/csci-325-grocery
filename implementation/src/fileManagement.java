@@ -31,19 +31,26 @@ public class fileManagement{
     {
         File returnedFile = new File("ListsFile\\" + path + ".txt");
         try {
+            String nameToWrite;
+            String amountToWrite;
             Formatter writerToFile = new Formatter(returnedFile);
-            int i = 0;
-            do {
-                String nameToWrite;
-                String amountToWrite;
+            int i;
+            for(i = 0;i < 50; i++ )
+            {
+
                 nameToWrite = k.itemsInList[i].nameOfObject;
                 amountToWrite = Integer.toString(k.itemsInList[i].amountOfObjects);
-                writerToFile.format(nameToWrite);
-                writerToFile.format(" ");
-                writerToFile.format(amountToWrite);
-                writerToFile.format("\r\n");
-                i++;
-            } while(i != 2);
+                System.out.println(nameToWrite);
+                System.out.println(amountToWrite);
+                writerToFile.format((nameToWrite));
+                writerToFile.format((" "));
+                writerToFile.format((amountToWrite));
+                writerToFile.format(("\r\n"));
+                if (k.itemsInList[i + 1].nameOfObject == null)
+                {
+                    break;
+                }
+            }
 
         writerToFile.close();
         }
