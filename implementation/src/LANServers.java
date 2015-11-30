@@ -30,6 +30,8 @@ public class LANServers {
             e.printStackTrace();
         }
     }
+
+    /**** getters & setters ****/
     public void setName(String name){
         this.name = name;
     }

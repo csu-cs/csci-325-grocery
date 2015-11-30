@@ -11,7 +11,7 @@ public class LAN extends LANManagement{
         startServer(myPort);
     }
 
-    // attempt to automatically pull the local ip address and host name
+    /**** attempt to automatically pull the local ip address and host name ****/
     public void autoAssign() {
         try {
             ip = InetAddress.getLocalHost();
