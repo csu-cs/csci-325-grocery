@@ -35,9 +35,11 @@ public class UIManagement extends JPanel {
     private JButton createList, viewList, addElm, removeElm, saveList, editList, sendList, finalSend, printList;
     private JLabel homeLabel;
     private JTextField recepientInfo;
+    private JList listViewing;
 
     UIManagement() {
         // utilizes a flow layout
+
         setLayout(new FlowLayout());
         // create the buttons
         createList = new JButton("Create New List");
@@ -51,6 +53,7 @@ public class UIManagement extends JPanel {
         finalSend = new JButton("Send");
         recepientInfo = new JTextField(14);
         printList = new JButton("Print");
+        listViewing = new JList();
         // fonts and default fonts for buttons
         Font myFontSmall = new Font("Helvetica", Font.PLAIN, 28);
         Font myFontMedium = new Font("Helvetica", Font.PLAIN, 60);
@@ -64,10 +67,13 @@ public class UIManagement extends JPanel {
         sendList.setFont(myFontSmall);
         finalSend.setFont(myFontSmall);
         printList.setFont(myFontSmall);
+
+       listViewing.setLocation(400,300);
         // add initial buttons
         this.add(homeLabel);
         this.add(createList);
         this.add(viewList);
+      //  this.add(listViewing);
         // add listeners for when the buttons are pressed
         viewList.addActionListener(new viewButtonListener());
         createList.addActionListener(new createButtonListener());
@@ -96,6 +102,8 @@ public class UIManagement extends JPanel {
             add(addElm);
             add(removeElm);
             add(saveList);
+            add(listViewing);
+
             revalidate();
             repaint();
         }
@@ -118,14 +126,34 @@ public class UIManagement extends JPanel {
                 add(editList);
                 add(printList);
                 add(sendList);
+
                 List viewedList = new List(file.getName());
+                viewedList = fileManagement.populateListFromFile(file.getPath());
+                String text[] = new String[50];
+                for(int k = 0; k < 50; k++)
+                {
+                   text[k] = "";
+                }
+
+                int i = 0;
+               do {
+                System.out.println(viewedList.itemsInList[i].nameOfObject);
+                Items currentItem = viewedList.itemsInList[i];
+                String nameOfTheObject = currentItem.nameOfObject;
+                String amountOfThatObject = Integer.toString(currentItem.amountOfObjects);
+
+                   text[i] = nameOfTheObject + " " + amountOfThatObject;
+
+                  i++;
+                }
+               while (viewedList.itemsInList[i].nameOfObject !=null);
+                listViewing = new JList(text);
+                add(listViewing);
                 revalidate();
                 repaint();
 
 
 
-
-                  viewedList = fileManagement.populateListFromFile(file.getPath());
 
 
             }
@@ -205,6 +233,7 @@ public class UIManagement extends JPanel {
                         aList.itemsInList[0] = item1;
                         aList.itemsInList[1] = item2;
                         fileManagement.populateFileFromList(aList,listName);
+
                     }
 
 
