@@ -34,8 +34,12 @@ public class UIManagement extends JPanel {
     // components used by the gui
     private JButton createList, viewList, addElm, removeElm, saveList, editList, sendList, finalSend, printList;
     private JLabel homeLabel;
-    private JTextField recepientInfo;
+   // private JTextField recepientInfo;
     private JList listViewing;
+
+    /****Merrell's UI change****/
+    private JComboBox recipientInfo;
+    private  File file;
 
     UIManagement() {
         // utilizes a flow layout
@@ -51,7 +55,10 @@ public class UIManagement extends JPanel {
         editList = new JButton("Edit");
         sendList = new JButton("Send");
         finalSend = new JButton("Send");
-        recepientInfo = new JTextField(14);
+        //recepientInfo = new JTextField(14);
+        /****Merrell's UI change****/
+        String[] tmplist = {"Searching Recipients..."};
+        recipientInfo = new JComboBox(tmplist);
         printList = new JButton("Print");
         listViewing = new JList();
         // fonts and default fonts for buttons
@@ -68,7 +75,7 @@ public class UIManagement extends JPanel {
         finalSend.setFont(myFontSmall);
         printList.setFont(myFontSmall);
 
-       listViewing.setLocation(400,300);
+       listViewing.setLocation(400, 300);
         // add initial buttons
         this.add(homeLabel);
         this.add(createList);
@@ -118,7 +125,7 @@ public class UIManagement extends JPanel {
             if (status != JFileChooser.APPROVE_OPTION) {
                 JOptionPane.showMessageDialog(null, "No File Chosen!");  // choosing no file goes back to the homescreen
             } else {
-                File file = chooser.getSelectedFile();
+                file = chooser.getSelectedFile();
                 System.out.println("SUCCESS FOR FILE SELECTION!"); // file successfully is loaded
                 remove(viewList);
                 remove(createList);
@@ -278,10 +285,12 @@ public class UIManagement extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("SHIFT TO SEND UI");
+            RecptHandle rh = new RecptHandle();
+            rh.start();
             remove(editList);
             remove(sendList);
             remove(printList);
-            add(recepientInfo);
+            add(recipientInfo);
             add(finalSend);
             revalidate();
             repaint();
@@ -302,10 +311,10 @@ public class UIManagement extends JPanel {
     private class finalSendListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (recepientInfo.getText().length() != 0) {
+            if (recipientInfo.getItemCount() != 0) {
                 System.out.println("SHIFT TO HOME UI. SUCCESSFUL LIST SEND");
                 remove(finalSend);
-                remove(recepientInfo);
+                remove(recipientInfo);
                 add(createList);
                 add(viewList);
                 revalidate();
@@ -315,5 +324,31 @@ public class UIManagement extends JPanel {
             }
         }
     }
+    /** END SEND LIST VIEW CODE */
+
+    /** Begin  Recipient Handler **/
+    private class RecptHandle extends Thread {
+        public void run(){
+            try{
+                DefaultComboBoxModel model = new DefaultComboBoxModel(LANManagement.searchServers("192.168.1"));
+                recipientInfo.setModel(model);
+            }catch(Exception e){
+                DefaultComboBoxModel emptyModel = new DefaultComboBoxModel(new String[]{"No Recipients Available"});
+                recipientInfo.setModel(emptyModel);
+            }
+        }
+
+    }
+
+    private class recipientListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
 }
-/** END SEND LIST VIEW CODE */
+
+
+

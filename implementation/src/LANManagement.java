@@ -1,5 +1,5 @@
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,15 +8,20 @@ import java.net.Socket;
  * Created by merrellblack on 11/24/15.
  */
 public class LANManagement {
-    final int timeout = 200;
-    int subnet = 14;
-    int port = 130001;
-    int numServers = 0;
-    LANServers[] serverArray = new LANServers[subnet];
+    static final int timeout = 200;
+    static int subnet = 50;
+    static int port = 13001;
+    static int numServers = 0;
+    static LANServers[] serverArray = new LANServers[subnet];
 
+    public LANManagement(){}
     /**** Starts Local Server (Listening services)****/
-    public void startServer(int myPort){
+    public static void startServer(int myPort){
         ServerSocket serverSocket = null;
+        int filesize = 1022386;
+        int bytesRead;
+        int currentTot;
+        byte[] bytearray = new byte[filesize];
        try {
             serverSocket = new ServerSocket(myPort);
             System.out.println("Server started -- listening on port: " + myPort);
@@ -31,16 +36,37 @@ public class LANManagement {
             try {
                 clientSocket = serverSocket.accept();
                 System.out.println("Accepted connection : " + clientSocket);
+                System.out.println("Waiting for file");
+                InputStream is = clientSocket.getInputStream();
+                FileOutputStream fos = new FileOutputStream("COPY.txt");
+                BufferedOutputStream bos = new BufferedOutputStream(fos);
+                bytesRead = is.read(bytearray, 0, bytearray.length);
+                currentTot = bytesRead;
+                do{
+                    bytesRead = is.read(bytearray, currentTot, (bytearray.length-currentTot));
+                    if(bytesRead >= 0){
+                        currentTot += bytesRead;
+                    }
+                } while(bytesRead > -1);
+
+                bos.write(bytearray, 0, currentTot);
+                bos.flush();
+                bos.close();
+                clientSocket.close();
             } catch (IOException e) {
                 System.err.println("Could not connect to " + clientSocket);
             }
+
+
         } else {
             System.err.println("Unable to accept clients: "+serverSocket+" not started");
         }
     }
 
+
+
     /****Search for listening servers ****/
-    public String[] searchServers(String hostnet){
+    public static String[] searchServers(String hostnet){
         Socket searchSocket;
         String[] aServers;
         System.out.println("Searching for servers....");
@@ -71,7 +97,7 @@ public class LANManagement {
     /**** Displays available servers: we can use
      * this method to return a list/(object)
      * of listening servers to the UI****/
-    public String[] availableServers(){
+    public static String[] availableServers(){
         System.out.println(numServers + "of" + serverArray.length + "available");
         String[] serverList = new String[numServers];
         int sTracker = 0;
@@ -88,7 +114,7 @@ public class LANManagement {
     }
 
     /**** Check to see if server is listening ****/
-    public Socket checkSocket(String hostServer)throws Exception{
+    public static Socket checkSocket(String hostServer)throws Exception{
         Socket socket = new Socket();
         InetSocketAddress host = new InetSocketAddress(hostServer, port);
         socket.connect(host, timeout);
