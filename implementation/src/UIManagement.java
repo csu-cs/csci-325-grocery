@@ -321,6 +321,7 @@ public class UIManagement extends JPanel {
                 remove(finalSend);
                 remove(recipientInfo);
                 remove(listViewing);
+                add(homeLabel);
                 add(createList);
                 add(viewList);
                 revalidate();
