@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -53,6 +54,8 @@ public class LANManagement {
                 bos.flush();
                 bos.close();
                 clientSocket.close();
+                JFrame parent = new JFrame();
+                JOptionPane.showMessageDialog(parent, "You were sent a list!! ");
             } catch (IOException e) {
                 System.err.println("Could not connect to " + clientSocket);
             }
