@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
@@ -44,8 +45,15 @@ button2.setOnClickListener(new View.OnClickListener() {
         String currentButtonText = button2.getText().toString();
         if(currentButtonText.equals("View List"))
         {
+            String placeholder = "ph";
             button1.setText("Edit");
             button2.setText("Send");
+            fileManagement.populateListFromFile(placeholder);
+            if (!fileManagement.populateListFromFile(placeholder))
+            {
+                Toast errorToast = Toast.makeText(getApplicationContext(), "There was an error with this file.", Toast.LENGTH_SHORT);
+                errorToast.show();
+            }
 
         }
     }
@@ -55,9 +63,7 @@ button2.setOnClickListener(new View.OnClickListener() {
     }
 
 
-    public static void viewListFromFile()
-    {
 
-    }
+
 
 }
