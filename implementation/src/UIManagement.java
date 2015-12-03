@@ -198,7 +198,9 @@ public class UIManagement extends JPanel {
                     temp = JOptionPane.showInputDialog("Enter quantity");  // get a quantity as a string
                     quantity = Integer.valueOf(temp); // attempt to convert to int
                     System.out.println(quantity);
-                    tempFlag = false; // set flag to false
+                    if(quantity > 0) {
+                        tempFlag = false; // set flag to false
+                    }
                 } catch (NumberFormatException exception) {
                     JOptionPane.showMessageDialog(null, "Enter a number!"); // catch for invalid number input
                 }
