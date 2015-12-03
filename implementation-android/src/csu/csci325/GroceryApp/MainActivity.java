@@ -48,8 +48,9 @@ button2.setOnClickListener(new View.OnClickListener() {
             String placeholder = "ph";
             button1.setText("Edit");
             button2.setText("Send");
-            fileManagement.populateListFromFile(placeholder);
-            if (!fileManagement.populateListFromFile(placeholder))
+            List currentlyViewedList = new List(placeholder);
+            fileManagement.populateListFromFile(placeholder, currentlyViewedList);
+            if (!fileManagement.testFileValidity(placeholder));
             {
                 Toast errorToast = Toast.makeText(getApplicationContext(), "There was an error with this file.", Toast.LENGTH_SHORT);
                 errorToast.show();
