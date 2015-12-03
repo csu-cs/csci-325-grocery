@@ -5,7 +5,7 @@ public class LAN extends LANManagement{
     InetAddress ip;
     String hostname;
     String ipAddr;
-    final int myPort = 130001;
+    final int myPort = 13001;
 
     public LAN(){
         startServer(myPort);

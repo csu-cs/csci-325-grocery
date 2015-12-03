@@ -1,3 +1,4 @@
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -30,6 +31,20 @@ public class LANServers {
             e.printStackTrace();
         }
     }
+
+    public void send(File transferfile) throws IOException{
+        byte[] bytearray = new byte[(int)transferfile.length()];
+        FileInputStream fin = new FileInputStream(transferfile);
+        BufferedInputStream bin = new BufferedInputStream(fin);
+        bin.read(bytearray, 0, bytearray.length);
+        OutputStream os = cSocket.getOutputStream();
+        System.out.println("Sending Files...");
+        os.write(bytearray, 0, bytearray.length);
+        os.flush();
+        cSocket.close();
+        System.out.println("File transfer complete");
+    }
+
 
     /**** getters & setters ****/
     public void setName(String name){
