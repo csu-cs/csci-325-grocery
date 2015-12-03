@@ -273,14 +273,9 @@ public class UIManagement extends JPanel {
                             fileManagement.deleteFile(listName);
                         } else
                             fileManagement.makeFile(listName);
-                        List aList = new List(listName);
-                        // The following items are test items!
-                        Items item1 = new Items("Icecream", 10);
-                        Items item2 = new Items("Chips", 9);
-                        aList.itemsInList[0] = item1;
-                        aList.itemsInList[1] = item2;
-                        fileManagement.populateFileFromList(aList,listName);
 
+                        fileManagement.populateFileFromList(itemList,listName);
+                        remove(myItemList);
                     }
 
 
@@ -316,6 +311,7 @@ public class UIManagement extends JPanel {
             add(addElm);
             add(removeElm);
             add(saveList);
+            add(myItemList);
             revalidate();
             repaint();
         }
