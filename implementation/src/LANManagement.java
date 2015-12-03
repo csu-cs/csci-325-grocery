@@ -38,7 +38,7 @@ public class LANManagement {
                 System.out.println("Accepted connection : " + clientSocket);
                 System.out.println("Waiting for file");
                 InputStream is = clientSocket.getInputStream();
-                FileOutputStream fos = new FileOutputStream("COPY.txt");
+                FileOutputStream fos = new FileOutputStream("./sentFile/"+clientSocket.getRemoteSocketAddress()+".txt");
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
                 bytesRead = is.read(bytearray, 0, bytearray.length);
                 currentTot = bytesRead;
@@ -99,8 +99,9 @@ public class LANManagement {
      * of listening servers to the UI****/
     public static String[] availableServers(){
         System.out.println(numServers + "of" + serverArray.length + "available");
-        String[] serverList = new String[numServers];
-        int sTracker = 0;
+        String[] serverList = new String[numServers+1];
+        int sTracker = 1;
+        serverList[0] = "Select Recipient";
         if(numServers>0) {
             for (int i = 0; i < serverArray.length; i++) {
                 if (serverArray[i] != null) {
@@ -119,6 +120,18 @@ public class LANManagement {
         InetSocketAddress host = new InetSocketAddress(hostServer, port);
         socket.connect(host, timeout);
         return(socket);
+    }
+
+    public static LANServers selectServer(String servername){
+        for(int i= 0; i < serverArray.length; i++){
+            if(serverArray[i] != null) {
+                System.out.println("checking: " + servername + " against " + serverArray[i].getName());
+                if (serverArray[i].getName().equals(servername)) {
+                    return serverArray[i];
+                }
+            }
+        }
+        return null;
     }
 
     /**** Getters & Setters ****/

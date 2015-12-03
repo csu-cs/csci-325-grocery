@@ -9,12 +9,15 @@ public class UI {
 
 
     public static void main(String args[]) {
+
         JFrame groceryUI = new JFrame("CSCI 325 Grocery Project");
         UIManagement myHomeScreen = new UIManagement();
         groceryUI.add(new UIManagement());
         groceryUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         groceryUI.pack();
         groceryUI.setVisible(true);
+        LANManagement.startServer(13001);
+
 
     }
 
