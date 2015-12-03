@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class UIManagement extends JPanel {
@@ -40,6 +41,7 @@ public class UIManagement extends JPanel {
     /****Merrell's UI change****/
     private JComboBox recipientInfo;
     private  File file;
+    private  String servername;
 
     UIManagement() {
         // utilizes a flow layout
@@ -290,7 +292,10 @@ public class UIManagement extends JPanel {
             remove(editList);
             remove(sendList);
             remove(printList);
+            recipientInfo.setEnabled(false);
+            recipientInfo.addActionListener(new recipientListener());
             add(recipientInfo);
+            finalSend.setEnabled(false);
             add(finalSend);
             revalidate();
             repaint();
@@ -315,10 +320,18 @@ public class UIManagement extends JPanel {
                 System.out.println("SHIFT TO HOME UI. SUCCESSFUL LIST SEND");
                 remove(finalSend);
                 remove(recipientInfo);
+                remove(listViewing);
                 add(createList);
                 add(viewList);
                 revalidate();
                 repaint();
+                if(servername != null) {
+                    try {
+                        LANManagement.selectServer(servername).send(file);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Enter who to send the list to!");
             }
@@ -332,6 +345,8 @@ public class UIManagement extends JPanel {
             try{
                 DefaultComboBoxModel model = new DefaultComboBoxModel(LANManagement.searchServers("192.168.1"));
                 recipientInfo.setModel(model);
+                recipientInfo.setEnabled(true);
+
             }catch(Exception e){
                 DefaultComboBoxModel emptyModel = new DefaultComboBoxModel(new String[]{"No Recipients Available"});
                 recipientInfo.setModel(emptyModel);
@@ -344,9 +359,15 @@ public class UIManagement extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            JComboBox cb = (JComboBox)e.getSource();
+            servername = (String)cb.getSelectedItem();
+            System.out.println(servername);
+            if(!servername.equals("Select Recipient")||servername.equals("No Recipients Available")){
+                finalSend.setEnabled(true);
+            }
         }
     }
+
 
 }
 

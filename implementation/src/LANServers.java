@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -18,6 +19,7 @@ public class LANServers {
         try{
             InetAddress inetIp = InetAddress.getByName(ip);
             name = inetIp.getHostName();
+            System.out.println(name + " servers name");
         } catch (UnknownHostException e) {
             System.err.println("Unable to resolve host name for: "+cSocket);
 
@@ -43,18 +45,24 @@ public class LANServers {
         os.flush();
         cSocket.close();
         System.out.println("File transfer complete");
+        JFrame parent = new JFrame();
+        JOptionPane.showMessageDialog(parent, "File transfer complete");
     }
 
 
     /**** getters & setters ****/
     public void setName(String name){
+
         this.name = name;
     }
 
     public String getName(){
+
         return name;
     }
+
     public void setIp(String ip){
+
         this.ip = ip;
     }
     public String getIp(){
