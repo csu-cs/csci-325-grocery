@@ -33,7 +33,14 @@ import java.util.Scanner;
 
 public class UIManagement extends JPanel {
     // components used by the gui
-    private JButton createList, viewList, addElm, removeElm, saveList, editList, sendList, finalSend, printList;
+    private JButton createList;
+    private JButton viewList;
+    private JButton addElm;
+    private JButton removeElm;
+    private JButton saveList;
+    private JButton editList;
+    private JButton sendList;
+    private JButton finalSend;
     private JLabel homeLabel;
    // private JTextField recepientInfo;
     private JList listViewing;
@@ -66,7 +73,6 @@ public class UIManagement extends JPanel {
         /****Merrell's UI change****/
         String[] tmplist = {"Searching Recipients..."};
         recipientInfo = new JComboBox(tmplist);
-        printList = new JButton("Print");
         listViewing = new JList();
         // fonts and default fonts for buttons
         Font myFontSmall = new Font("Helvetica", Font.PLAIN, 28);
@@ -80,7 +86,6 @@ public class UIManagement extends JPanel {
         editList.setFont(myFontSmall);
         sendList.setFont(myFontSmall);
         finalSend.setFont(myFontSmall);
-        printList.setFont(myFontSmall);
         myPane.setViewportView(myItemList);
 
 
@@ -101,7 +106,6 @@ public class UIManagement extends JPanel {
         editList.addActionListener(new editButtonListener());
         sendList.addActionListener(new sendButtonListener());
         finalSend.addActionListener(new finalSendListener());
-        printList.addActionListener(new printListener());
         // preferred size set for testing
         this.setPreferredSize(new Dimension(600, 800));
     }
@@ -145,11 +149,10 @@ public class UIManagement extends JPanel {
                 remove(createList);
                 remove(homeLabel);
                 add(editList);
-                add(printList);
                 add(sendList);
 
-                List viewedList = new List(file.getName());
-                viewedList = fileManagement.populateListFromFile(file.getPath());
+                itemList = new List(file.getName());
+                itemList = fileManagement.populateListFromFile(file.getPath());
                 String text[] = new String[50];
                 for(int k = 0; k < 50; k++)
                 {
@@ -158,8 +161,8 @@ public class UIManagement extends JPanel {
 
                 int i = 0;
                do {
-                System.out.println(viewedList.itemsInList[i].nameOfObject);
-                Items currentItem = viewedList.itemsInList[i];
+                System.out.println(itemList.itemsInList[i].nameOfObject);
+                Items currentItem = itemList.itemsInList[i];
                 String nameOfTheObject = currentItem.nameOfObject;
                 String amountOfThatObject = Integer.toString(currentItem.amountOfObjects);
 
@@ -167,9 +170,12 @@ public class UIManagement extends JPanel {
 
                   i++;
                 }
-               while (viewedList.itemsInList[i].nameOfObject !=null);
-                listViewing = new JList(text);
-                add(listViewing);
+               while (itemList.itemsInList[i].nameOfObject !=null);
+                arrayCounter = i;
+                createItems();
+                myItemList = new JList(displayList);
+                add(myPane);
+                fixPane();
                 revalidate();
                 repaint();
 
@@ -350,7 +356,7 @@ public class UIManagement extends JPanel {
                             fileManagement.makeFile(listName);
 
                         fileManagement.populateFileFromList(itemList,listName);
-                        remove(myItemList);
+                        remove(myPane);
                     }
 
 
@@ -386,8 +392,8 @@ public class UIManagement extends JPanel {
             add(addElm);
             add(removeElm);
             add(saveList);
-            myPane = new JScrollPane(myItemList);
-            add(myPane);
+            remove(myPane);
+            fixPane();
             revalidate();
             repaint();
         }
@@ -401,7 +407,6 @@ public class UIManagement extends JPanel {
             rh.start();
             remove(editList);
             remove(sendList);
-            remove(printList);
             recipientInfo.setEnabled(false);
             recipientInfo.addActionListener(new recipientListener());
             add(recipientInfo);
