@@ -454,7 +454,7 @@ public class UIManagement extends JPanel {
     private class RecptHandle extends Thread {
         public void run(){
             try{
-                DefaultComboBoxModel model = new DefaultComboBoxModel(LANManagement.searchServers("192.168.1"));
+                DefaultComboBoxModel model = new DefaultComboBoxModel(LANManagement.searchServers(LAN.autoAssign()));
                 recipientInfo.setModel(model);
                 recipientInfo.setEnabled(true);
 
