@@ -41,6 +41,8 @@ public class UIManagement extends JPanel {
     private List itemList = new List("myList");
     private int arrayCounter = 0;
     String[] displayList = new String[50];
+    JScrollPane myPane = new JScrollPane(myItemList);
+
 
     /****Merrell's UI change****/
     private JComboBox recipientInfo;
@@ -79,12 +81,15 @@ public class UIManagement extends JPanel {
         sendList.setFont(myFontSmall);
         finalSend.setFont(myFontSmall);
         printList.setFont(myFontSmall);
+        myPane.setViewportView(myItemList);
+
 
        listViewing.setLocation(400, 300);
         // add initial buttons
         this.add(homeLabel);
         this.add(createList);
         this.add(viewList);
+        add(myPane);
       //  this.add(listViewing);
         // add listeners for when the buttons are pressed
         viewList.addActionListener(new viewButtonListener());
@@ -115,8 +120,10 @@ public class UIManagement extends JPanel {
             add(removeElm);
             add(saveList);
             add(listViewing);
-            myItemList = new JList(displayList);
-            add(myItemList);
+            myItemList = new JList();
+            add(myPane);
+            myPane.setPreferredSize(new Dimension(500, 500));
+            //add(myItemList);
 
             revalidate();
             repaint();
@@ -209,30 +216,34 @@ public class UIManagement extends JPanel {
                     Boolean catchItem = false;
                     for (int i = 0; i < arrayCounter; i++){
                         if(itemList.itemsInList[i].nameOfObject.equals(name)){
+                           // remove(myItemList);
                             itemList.itemsInList[i].amountOfObjects = itemList.itemsInList[i].amountOfObjects + quantity;
                             catchItem = true;
-                            remove(myItemList);
                             createItems();
                             myItemList = new JList(displayList);
                             myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
-                            myItemList.setLocation(400, 300);
-                            add(myItemList);
+                            remove(myPane);
+                            fixPane();
                             revalidate();
                             repaint();
                         }
                     }
 
                     if(catchItem == false){
-                        itemList.itemsInList[arrayCounter] = new Items(name, quantity);
-                        arrayCounter++;
-                        remove(myItemList);
-                        createItems();
-                        myItemList = new JList(displayList);
-                        myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
-                        myItemList.setLocation(400, 300);
-                        add(myItemList);
-                        revalidate();
-                        repaint();
+                        if(arrayCounter < 50) {
+                            itemList.itemsInList[arrayCounter] = new Items(name, quantity);
+                            arrayCounter++;
+                            //remove(myItemList);
+                            createItems();
+                            myItemList = new JList(displayList);
+                            myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
+                            myItemList.setLocation(400, 300);
+                           // add(myItemList);
+                            remove(myPane);
+                            fixPane();
+                            revalidate();
+                            repaint();
+                        }
                     }
 
 
@@ -248,6 +259,70 @@ public class UIManagement extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("REMOVE ITEMS");  // NEEDS TO BE IMPLEMENTED
+            int tempInd = myItemList.getSelectedIndex();
+            try {
+
+                if(tempInd == arrayCounter - 1 && arrayCounter > 1){
+                    itemList.itemsInList[tempInd].nameOfObject = "null";
+                    itemList.itemsInList[tempInd].amountOfObjects = 0;
+                    arrayCounter--;
+                    createItems();
+                    myItemList = new JList(displayList);
+                    myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
+                    remove(myPane);
+                    fixPane();
+
+                    revalidate();
+                    repaint();
+                }
+
+               else if (tempInd > 0 && arrayCounter > 1) {
+                    nukeItem(tempInd);
+                    myItemList = new JList(displayList);
+                    myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
+                    remove(myPane);
+                    fixPane();
+                    repaint();
+                    revalidate();
+                }
+
+                else {
+
+                    if (arrayCounter == 1) {
+                        itemList.itemsInList[0].nameOfObject = "null";
+                        itemList.itemsInList[0].amountOfObjects = 0;
+                        displayList = new String[0];
+                        myItemList = new JList(displayList);
+                        myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
+                        arrayCounter--;
+                        remove(myPane);
+                        fixPane();
+                        repaint();
+                        revalidate();
+
+                    } else {
+
+                        for (int i = 0; i < arrayCounter - 1; i++) {
+                            itemList.itemsInList[i].nameOfObject = itemList.itemsInList[i + 1].nameOfObject;
+                            itemList.itemsInList[i].amountOfObjects = itemList.itemsInList[i + 1].amountOfObjects;
+                        }
+                        itemList.itemsInList[arrayCounter - 1].nameOfObject = null;
+                        itemList.itemsInList[arrayCounter - 1].amountOfObjects = 0;
+                        arrayCounter--;
+                        createItems();
+                        myItemList = new JList(displayList);
+                        myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
+                        remove(myPane);
+                        fixPane();
+
+                        revalidate();
+                        repaint();
+                    }
+                }
+            }
+            catch(ArrayIndexOutOfBoundsException exception){
+                JOptionPane.showMessageDialog(null, "You need select an item first");
+            }
         }
     }
     // when save is pressed, save the list and goto main
@@ -311,7 +386,8 @@ public class UIManagement extends JPanel {
             add(addElm);
             add(removeElm);
             add(saveList);
-            add(myItemList);
+            myPane = new JScrollPane(myItemList);
+            add(myPane);
             revalidate();
             repaint();
         }
@@ -403,6 +479,8 @@ public class UIManagement extends JPanel {
         }
     }
 
+
+    // populate item string name array for the list by Matthew
     public void createItems(){
         int myCount = 0;
         displayList = new String[arrayCounter];
@@ -411,6 +489,39 @@ public class UIManagement extends JPanel {
             myCount++;
         }
     }
+
+    // nuke an item from the last, used by remove. attemtping to implement - by mattthew
+    public void nukeItem(int indx){
+        int myCount = indx + 1;
+        List tempList = new List("aaa");
+
+
+
+       for (int i = 0; i < indx; i++){
+           tempList.itemsInList[i].nameOfObject = itemList.itemsInList[i].nameOfObject;
+           tempList.itemsInList[i].amountOfObjects = itemList.itemsInList[i].amountOfObjects;
+       }
+
+                tempList.itemsInList[indx].nameOfObject = itemList.itemsInList[myCount].nameOfObject;
+                tempList.itemsInList[indx].amountOfObjects = itemList.itemsInList[myCount].amountOfObjects;
+
+
+            while (myCount < arrayCounter ) {
+                tempList.itemsInList[myCount].nameOfObject = itemList.itemsInList[myCount + 1].nameOfObject;
+                tempList.itemsInList[myCount].amountOfObjects = itemList.itemsInList[myCount + 1].amountOfObjects;
+                myCount++;
+            }
+            arrayCounter--;
+            createItems();
+            itemList = tempList;
+        }
+
+        public void fixPane(){
+            myPane = new JScrollPane(myItemList);
+            myPane.setPreferredSize(new Dimension(400, 400));
+            add(myPane);
+        }
+
 
 
 }
