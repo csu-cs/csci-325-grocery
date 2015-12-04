@@ -37,6 +37,10 @@ public class UIManagement extends JPanel {
     private JLabel homeLabel;
    // private JTextField recepientInfo;
     private JList listViewing;
+    private JList myItemList;
+    private List itemList = new List("myList");
+    private int arrayCounter = 0;
+    String[] displayList = new String[50];
 
     /****Merrell's UI change****/
     private JComboBox recipientInfo;
@@ -45,7 +49,6 @@ public class UIManagement extends JPanel {
 
     UIManagement() {
         // utilizes a flow layout
-
         setLayout(new FlowLayout());
         // create the buttons
         createList = new JButton("Create New List");
@@ -112,6 +115,8 @@ public class UIManagement extends JPanel {
             add(removeElm);
             add(saveList);
             add(listViewing);
+            myItemList = new JList(displayList);
+            add(myItemList);
 
             revalidate();
             repaint();
@@ -198,7 +203,40 @@ public class UIManagement extends JPanel {
                     temp = JOptionPane.showInputDialog("Enter quantity");  // get a quantity as a string
                     quantity = Integer.valueOf(temp); // attempt to convert to int
                     System.out.println(quantity);
-                    tempFlag = false; // set flag to false
+                    if(quantity > 0) {
+                        tempFlag = false; // set flag to false
+                    }
+                    Boolean catchItem = false;
+                    for (int i = 0; i < arrayCounter; i++){
+                        if(itemList.itemsInList[i].nameOfObject.equals(name)){
+                            itemList.itemsInList[i].amountOfObjects = itemList.itemsInList[i].amountOfObjects + quantity;
+                            catchItem = true;
+                            remove(myItemList);
+                            createItems();
+                            myItemList = new JList(displayList);
+                            myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
+                            myItemList.setLocation(400, 300);
+                            add(myItemList);
+                            revalidate();
+                            repaint();
+                        }
+                    }
+
+                    if(catchItem == false){
+                        itemList.itemsInList[arrayCounter] = new Items(name, quantity);
+                        arrayCounter++;
+                        remove(myItemList);
+                        createItems();
+                        myItemList = new JList(displayList);
+                        myItemList.setFont(new Font("Helvetica", Font.PLAIN, 68));
+                        myItemList.setLocation(400, 300);
+                        add(myItemList);
+                        revalidate();
+                        repaint();
+                    }
+
+
+
                 } catch (NumberFormatException exception) {
                     JOptionPane.showMessageDialog(null, "Enter a number!"); // catch for invalid number input
                 }
@@ -235,14 +273,9 @@ public class UIManagement extends JPanel {
                             fileManagement.deleteFile(listName);
                         } else
                             fileManagement.makeFile(listName);
-                        List aList = new List(listName);
-                        // The following items are test items!
-                        Items item1 = new Items("Icecream", 10);
-                        Items item2 = new Items("Chips", 9);
-                        aList.itemsInList[0] = item1;
-                        aList.itemsInList[1] = item2;
-                        fileManagement.populateFileFromList(aList,listName);
 
+                        fileManagement.populateFileFromList(itemList,listName);
+                        remove(myItemList);
                     }
 
 
@@ -278,6 +311,7 @@ public class UIManagement extends JPanel {
             add(addElm);
             add(removeElm);
             add(saveList);
+            add(myItemList);
             revalidate();
             repaint();
         }
@@ -366,6 +400,15 @@ public class UIManagement extends JPanel {
             if(!servername.equals("Select Recipient")||servername.equals("No Recipients Available")){
                 finalSend.setEnabled(true);
             }
+        }
+    }
+
+    public void createItems(){
+        int myCount = 0;
+        displayList = new String[arrayCounter];
+        while (myCount < arrayCounter){
+            displayList[myCount] = itemList.itemsInList[myCount].nameOfObject + " x" + itemList.itemsInList[myCount].amountOfObjects;
+            myCount++;
         }
     }
 
